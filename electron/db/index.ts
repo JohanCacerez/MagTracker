@@ -1,16 +1,23 @@
-import Database from "better-sqlite3";
-import path from "path";
+// src/electron/db/index.ts o donde tengas tu DB
+import { createRequire } from "module";
+const require = createRequire(import.meta.url);
 
-//process.cwd devuelve la ruta absoluta del proyecto
-const dbPath = path.join(process.cwd(), "magtrackerDB.sqlite");
-const db = new Database(dbPath)
+// Ahora sí puedes usar CommonJS
+const Database = require("better-sqlite3");
+
+// Path de la DB (puedes usar app.getPath('userData') si quieres)
+import { app } from "electron";
+import path from "path";
+const dbPath = path.join(app.getPath("userData"), "database.sqlite");
+
+const db = new Database(dbPath);
 
 // Ejecuta migraciones si no existen tablas
 db.exec(`
   CREATE TABLE IF NOT EXISTS magazines (
     id INTEGER PRIMARY KEY,
     size TEXT,
-    status TEXT DEFAULT 'available'
+    status TEXT DEFAULT 'available',
     last_maintenance DATE,
     next_maintenance DATE
   );
@@ -59,7 +66,7 @@ db.exec(`
     FOREIGN KEY (user_id) REFERENCES users(id)
   );
 
-  dolliesHistory (
+  CREATE TABLE IF NOT EXISTS dolliesHistory (
     id INTEGER PRIMARY KEY,
     dolly_id INTEGER,
     maintenance_id INTEGER,

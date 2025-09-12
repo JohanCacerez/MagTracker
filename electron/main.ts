@@ -1,10 +1,14 @@
 import { app, BrowserWindow } from 'electron'
 import { fileURLToPath } from 'node:url'
 import path from 'node:path'
-const __dirname = path.dirname(fileURLToPath(import.meta.url))
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
 
 import 'dotenv/config'
 import fs from 'fs'
+
+//IPC
+import { registerMagazineHandlers } from './db/controllers/magazines'
 
 const userDataPath = app.getPath('userData')
 if (!fs.existsSync(userDataPath)) fs.mkdirSync(userDataPath, { recursive: true })
@@ -70,4 +74,7 @@ app.on('activate', () => {
   }
 })
 
-app.whenReady().then(createWindow)
+app.whenReady().then(() => {
+  createWindow()
+  registerMagazineHandlers()
+})
