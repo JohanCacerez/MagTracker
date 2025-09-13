@@ -1,1 +1,49 @@
 @import "tailwindcss";
+
+@theme {
+  /* Colores principales */
+  --color-primary-light: #b89ae2;
+  --color-primary: #996fd6;
+  --color-primary-dark: #6b4e96;
+
+  /* Colores secundarios */
+  --color-secondary-light: #dcdcff;
+  --color-secondary: #b8b8ff;
+  --color-secondary-dark: #9381ff;
+
+  /* Colores de texto */
+  --color-text-light: #adb5bd;
+  --color-text: #495057;
+  --color-text-dark: #212529;
+
+  /* Colores de botones */
+  --color-button-delete: #ff4d4f;
+  --color-button-default: #b8b8ff;
+  --color-button-save: #10b981;
+  --color-button-save-hover: #58cea7;
+
+  /* Otros colores */
+  --color-success: #2a9d8f;
+  --color-warning: #e9c46a;
+  --color-error: #e76f51;
+
+  --font-title: var(--font-serif);
+  --font-body: var(--font-sans);
+  --font-ui: var(--font-sans);
+  --font-code: var(--font-mono);
+}
+
+/* Estilos con @apply */
+
+/* Botones */
+.btn {
+  @apply flex items-center gap-3 px-4 py-2 rounded-lg cursor-pointer font-ui font-medium text-sm transition-colors;
+}
+
+.btn-save {
+  @apply bg-[var(--color-button-save)] text-black hover:bg-[var(--color-button-save-hover)];
+}
+
+.btn-delete {
+  @apply bg-[var(--color-button-delete)] text-white hover:bg-red-600;
+}
