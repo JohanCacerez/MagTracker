@@ -1,5 +1,5 @@
 import db from "../db/index";
-import { Magazine } from "../types";
+import { Magazine } from "../../src/types/electron";
 
 export function getMagazines() {
   return db.prepare("SELECT * FROM magazines").all() as Magazine[];

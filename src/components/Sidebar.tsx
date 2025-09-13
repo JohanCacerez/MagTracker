@@ -1,4 +1,7 @@
 import React from "react";
+
+import { NavLink } from "react-router-dom";
+
 import { FaCog, FaSignOutAlt } from "react-icons/fa";
 import { BiBuilding, BiCar } from "react-icons/bi";
 import { HiOutlineChartBar, HiOutlineUserCircle } from "react-icons/hi";
@@ -14,9 +17,12 @@ const Sidebar: React.FC = () => {
             <HiOutlineUserCircle size={35} />
             <span className="font-semibold text-text-dark">Nombre Usuario</span>
           </div>
-          <button className="bg-primary-dark p-2 rounded-full text-text-dark hover:bg-primary-dark cursor-pointer">
+          <NavLink
+            to={"/settings"}
+            className="bg-primary-dark p-2 rounded-full text-text-dark hover:bg-primary-dark cursor-pointer"
+          >
             <FaCog size={18} />
-          </button>
+          </NavLink>
         </div>
 
         {/* Opciones */}

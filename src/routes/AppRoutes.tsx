@@ -7,6 +7,7 @@ import MagazineListPage from "../pages/magazine/MagazineListPage";
 import MagazineDetailPage from "../pages/magazine/MagazineDetailPage";
 import DollieListPage from "../pages/dollie/DollieListPage";
 import DollieDetailPage from "../pages/dollie/DollieDetailPage";
+import { RegisterUserModal } from "../components/RegisterUserModal";
 
 const AppRoutes = () => {
   return (
@@ -14,6 +15,7 @@ const AppRoutes = () => {
       {/* Rutas protegidas */}
       <Route element={<MainLayout />}>
         <Route path="/" element={<DashboardPage />} />
+        <Route path="/settings" element={<RegisterUserModal />} />
         <Route path="/magazines" element={<MagazineListPage />} />
         <Route path="/magazines/:id" element={<MagazineDetailPage />} />
         <Route path="/dollies" element={<DollieListPage />} />

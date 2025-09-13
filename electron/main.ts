@@ -9,6 +9,7 @@ import fs from "fs";
 
 //IPC
 import { registerMagazineHandlers } from "./db/controllers/magazines";
+import { registerUserHandlers } from "./db/controllers/users";
 
 const userDataPath = app.getPath("userData");
 if (!fs.existsSync(userDataPath))
@@ -82,4 +83,5 @@ app.on("activate", () => {
 app.whenReady().then(() => {
   createWindow();
   registerMagazineHandlers();
+  registerUserHandlers();
 });
