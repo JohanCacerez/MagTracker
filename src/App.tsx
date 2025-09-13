@@ -1,11 +1,14 @@
-import Sidebar from "./components/Sidebar";
+import { HashRouter } from "react-router-dom";
+import AppRoutes from "./routes/AppRoutes";
+import LoginModal from "./components/LoginModal";
 
 function App() {
-
+  const isAuth = true;
   return (
-    <>
-      <Sidebar />
-    </>
+    <HashRouter>
+      <AppRoutes />
+      {!isAuth && <LoginModal />}
+    </HashRouter>
   );
 }
 
