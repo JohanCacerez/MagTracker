@@ -1,53 +1,64 @@
 @import "tailwindcss";
 
 @theme {
+  /* Fondo y superficies */
+  --color-bg: #0d1117;
+  --color-surface: #161b22;
+
   /* Colores principales */
-  --color-primary-light: #b89ae2;
-  --color-primary: #996fd6;
-  --color-primary-dark: #6b4e96;
+  --color-primary: #1f6feb;
+  --color-primary-light: #388bfd;
+  --color-primary-dark: #1158c7;
 
   /* Colores secundarios */
-  --color-secondary-light: #dcdcff;
-  --color-secondary: #b8b8ff;
-  --color-secondary-dark: #9381ff;
+  --color-secondary: #7c3aed;
+  --color-secondary-light: #a78bfa;
+  --color-secondary-dark: #5b21b6;
 
-  /* Colores de texto */
-  --color-text-light: #adb5bd;
-  --color-text: #495057;
-  --color-text-dark: #212529;
+  /* Texto */
+  --color-text: #f0f6fc;
+  --color-text-muted: #8b949e;
+  --color-text-inverse: #0d1117;
 
-  /* Colores de botones */
-  --color-button-delete: #ff4d4f;
-  --color-button-default: #b8b8ff;
-  --color-button-save: #10b981;
-  --color-button-save-hover: #58cea7;
+  /* Botones */
+  --color-button-save: #2ea043;
+  --color-button-save-hover: #3fb950;
+  --color-button-delete: #f85149;
+  --color-button-delete-hover: #da3633;
 
-  /* Otros colores */
-  --color-success: #2a9d8f;
-  --color-warning: #e9c46a;
-  --color-error: #e76f51;
+  /* Bordes y separadores */
+  --color-border: #30363d;
+  --color-divider: #21262d;
 
-  --font-title: var(--font-serif);
-  --font-body: var(--font-sans);
-  --font-ui: var(--font-sans);
-  --font-code: var(--font-mono);
+  /* Estados */
+  --color-success: #2ea043;
+  --color-warning: #d29922;
+  --color-error: #f85149;
+
+  /* Tipografías */
+  --font-title: "Merriweather", serif;
+  --font-body: "Inter", Arial, sans-serif;
+  --font-ui: "Inter", Arial, sans-serif;
+  --font-code: "Fira Code", monospace;
 }
-
-/* Estilos con @apply */
 
 /* Links */
 .link {
+  @apply text-[var(--color-primary)] hover:text-[var(--color-primary-light)];
 }
 
-/* Botones */
+/* Botones base */
 .btn {
-  @apply flex items-center gap-3 px-4 py-2 rounded-lg cursor-pointer font-ui font-medium text-sm transition-colors;
+  @apply flex items-center gap-3 px-4 py-2 justify-center rounded-lg cursor-pointer 
+         font-ui font-bold text-sm transition-colors;
 }
 
 .btn-save {
-  @apply bg-[var(--color-button-save)] text-black hover:bg-[var(--color-button-save-hover)];
+  @apply bg-[var(--color-button-save)] text-white 
+         hover:bg-[var(--color-button-save-hover)];
 }
 
 .btn-delete {
-  @apply bg-[var(--color-button-delete)] text-white hover:bg-red-600;
+  @apply bg-[var(--color-button-delete)] text-white 
+         hover:bg-[var(--color-button-delete-hover)];
 }

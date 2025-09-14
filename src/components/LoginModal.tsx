@@ -1,3 +1,5 @@
+// LoginModal.tsx
+import { createPortal } from "react-dom";
 import { useState } from "react";
 
 const LoginModal = () => {
@@ -12,10 +14,12 @@ const LoginModal = () => {
     console.log("login", form);
   };
 
-  return (
-    <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50">
+  return createPortal(
+    <div className="fixed inset-0 bg-secondary-dark/30 flex items-center justify-center z-50">
       <div className="bg-white rounded-2xl p-6 w-[400px] shadow-xl">
-        <h2 className="text-xl font-bold mb-4">Iniciar sesión</h2>
+        <h2 className="text-xl font-bold mb-4 text-text-inverse">
+          Iniciar sesión
+        </h2>
         <form onSubmit={handleSubmit} className="flex flex-col gap-3">
           <input
             type="text"
@@ -23,7 +27,7 @@ const LoginModal = () => {
             placeholder="Usuario"
             value={form.username}
             onChange={handleChange}
-            className="border rounded px-3 py-2"
+            className="border border-border rounded px-3 py-2"
             required
           />
           <input
@@ -32,18 +36,19 @@ const LoginModal = () => {
             placeholder="Contraseña"
             value={form.password}
             onChange={handleChange}
-            className="border rounded px-3 py-2"
+            className="border border-border rounded px-3 py-2"
             required
           />
           <button
             type="submit"
-            className="bg-blue-600 text-white py-2 rounded hover:bg-blue-700"
+            className="btn bg-secondary hover:bg-secondary-light"
           >
             Entrar
           </button>
         </form>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 };
 
