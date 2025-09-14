@@ -35,7 +35,7 @@ const Sidebar: React.FC = () => {
           <hr className="border-divider" />
 
           <button
-            className="flex items-center gap-3 px-4 py-2 rounded cursor-pointer 
+            className="flex items-center gap-3 px-4 py-2 rounded font-semibold cursor-pointer 
                              text-text hover:bg-primary-light"
           >
             <BiBuilding />
@@ -44,7 +44,7 @@ const Sidebar: React.FC = () => {
           <hr className="border-divider" />
 
           <button
-            className="flex items-center gap-3 px-4 py-2 rounded cursor-pointer 
+            className="flex items-center gap-3 px-4 py-2 rounded font-semibold cursor-pointer 
                              text-text hover:bg-primary-light"
           >
             <BiCar />
@@ -57,7 +57,7 @@ const Sidebar: React.FC = () => {
       <div className="mt-auto">
         <hr className="border-divider mb-2" />
         <button
-          className="flex items-center gap-3 w-full px-4 py-2 rounded cursor-pointer 
+          className="flex items-center gap-3 w-full px-4 py-2 rounded font-semibold cursor-pointer 
                            text-text hover:bg-primary-dark"
         >
           <FaSignOutAlt />
