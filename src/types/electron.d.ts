@@ -19,8 +19,23 @@ export interface UserData {
   role: string;
 }
 
+export interface LoginData {
+  id: number;
+  password: string;
+}
+export interface AuthUserData {
+  id: number;
+  username: string;
+  role: string;
+}
+
 export interface UsersAPI {
   create: (user: UserData) => Promise<{ success: boolean; message: string }>;
+  auth: (user: LoginData) => Promise<{
+    success: boolean;
+    message: string;
+    user?: AuthUserData;
+  }>;
 }
 
 // Extiende window

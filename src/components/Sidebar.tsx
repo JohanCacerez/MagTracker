@@ -3,8 +3,11 @@ import { NavLink } from "react-router-dom";
 import { FaCog, FaSignOutAlt } from "react-icons/fa";
 import { BiBuilding, BiCar } from "react-icons/bi";
 import { HiOutlineChartBar, HiOutlineUserCircle } from "react-icons/hi";
+import { useUserStore } from "../store/userStore";
 
 const Sidebar: React.FC = () => {
+  const currentUser = useUserStore((state) => state.currentUser);
+  const logout = useUserStore((state) => state.logout);
   return (
     <div className="w-60 h-screen bg-surface border-r border-border text-text flex flex-col p-4">
       {/* Parte superior: Usuario + Opciones */}
@@ -13,7 +16,7 @@ const Sidebar: React.FC = () => {
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center gap-2 font-semibold text-text">
             <HiOutlineUserCircle size={35} />
-            <span>Nombre Usuario</span>
+            <span>{currentUser?.username || "Usuario"}</span>
           </div>
           <NavLink
             to="/settings"
@@ -57,6 +60,7 @@ const Sidebar: React.FC = () => {
       <div className="mt-auto">
         <hr className="border-divider mb-2" />
         <button
+          onClick={logout}
           className="flex items-center gap-3 w-full px-4 py-2 rounded font-semibold cursor-pointer 
                            text-text hover:bg-primary-dark"
         >

@@ -1,17 +1,32 @@
-// LoginModal.tsx
 import { createPortal } from "react-dom";
 import { useState } from "react";
+import { toast, Toaster } from "sonner";
+import { useUserStore } from "../store/userStore";
 
 const LoginModal = () => {
-  const [form, setForm] = useState({ username: "", password: "" });
+  const [form, setForm] = useState({ id: "", password: "" });
+  const authUser = useUserStore((state) => state.authUser);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("login", form);
+
+    try {
+      await authUser({
+        id: Number(form.id), // 👈 convertir el string del input a number
+        password: form.password,
+      });
+      toast.success("¡Inicio de sesión exitoso!");
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        toast.error(error.message);
+      } else {
+        toast.error("Ocurrió un error desconocido");
+      }
+    }
   };
 
   return createPortal(
@@ -23,9 +38,9 @@ const LoginModal = () => {
         <form onSubmit={handleSubmit} className="flex flex-col gap-3">
           <input
             type="text"
-            name="username"
-            placeholder="Usuario"
-            value={form.username}
+            name="id"
+            placeholder="ID de usuario"
+            value={form.id}
             onChange={handleChange}
             className="border border-border rounded px-3 py-2"
             required
@@ -46,6 +61,7 @@ const LoginModal = () => {
             Entrar
           </button>
         </form>
+        <Toaster position="top-right" richColors />
       </div>
     </div>,
     document.body

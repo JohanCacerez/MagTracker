@@ -1,9 +1,11 @@
 import { create } from "zustand";
-import { UserData } from "../types/electron";
+import { UserData, AuthUserData, LoginData } from "../types/electron";
 
 interface UserState {
-  currentUser: UserData | null;
+  currentUser: AuthUserData | null;
   createUser: (user: UserData) => Promise<void>;
+  authUser: (user: LoginData) => Promise<void>;
+  logout: () => void;
 }
 
 export const useUserStore = create<UserState>((set) => ({
@@ -14,6 +16,16 @@ export const useUserStore = create<UserState>((set) => ({
     if (!result.success) {
       throw new Error(result.message);
     }
-    set({ currentUser: user });
+    set({
+      currentUser: { id: user.id, username: user.username, role: user.role },
+    });
   },
+  authUser: async (user) => {
+    const result = await window.electronAPI.users.auth(user);
+    if (!result.success) {
+      throw new Error(result.message);
+    }
+    set({ currentUser: result.user! }); // el backend siempre devuelve AuthUserData
+  },
+  logout: () => set({ currentUser: null }),
 }));
