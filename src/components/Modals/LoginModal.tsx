@@ -1,7 +1,7 @@
 import { createPortal } from "react-dom";
 import { useState } from "react";
 import { toast, Toaster } from "sonner";
-import { useUserStore } from "../store/userStore";
+import { useUserStore } from "../../store/userStore";
 
 const LoginModal = () => {
   const [form, setForm] = useState({ id: "", password: "" });

@@ -1,6 +1,6 @@
 import { HashRouter } from "react-router-dom";
 import AppRoutes from "./routes/AppRoutes";
-import LoginModal from "./components/LoginModal";
+import LoginModal from "./components/Modals/LoginModal";
 
 function App() {
   const isAuth = true;

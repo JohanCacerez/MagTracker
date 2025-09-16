@@ -1,6 +1,6 @@
 import { Outlet } from "react-router-dom";
 import Sidebar from "../components/Sidebar";
-import LoginModal from "../components/LoginModal";
+import LoginModal from "../components/Modals/LoginModal";
 
 import { useUserStore } from "../store/userStore";
 
@@ -10,7 +10,7 @@ const MainLayout = () => {
   return (
     <div className="flex h-screen">
       <Sidebar />
-      <main className="flex-1 bg-bg p-4 overflow-y-auto">
+      <main className="flex-1 bg-bg p-4 overflow-hidden">
         <Outlet />
 
         {!isAuth && <LoginModal />}

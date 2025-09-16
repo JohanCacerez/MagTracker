@@ -1,6 +1,6 @@
 // src/components/RegisterUserForm.tsx
 import React, { useState } from "react";
-import { useUserStore } from "../store/userStore";
+import { useUserStore } from "../../store/userStore";
 
 export const RegisterUserModal: React.FC = () => {
   const createUser = useUserStore((state) => state.createUser);
