@@ -64,3 +64,19 @@ export async function AuthUser(idUser: number, password: string) {
     return { success: false, message: "Error al autenticar el usuario" };
   }
 }
+
+export async function DeleteUser(idUser: number) {
+  try {
+    const userExist = db
+      .prepare("SELECT * FROM users WHERE id = ?")
+      .get(idUser);
+    if (!userExist) {
+      return { success: false, message: "El usuario no existe" };
+    }
+    db.prepare("DELETE FROM users WHERE id = ?").run(idUser);
+    return { success: true, message: "Usuario eliminado con éxito" };
+  } catch (error) {
+    console.error("Error al eliminar el usuario:", error);
+    return { success: false, message: "Error al eliminar el usuario" };
+  }
+}

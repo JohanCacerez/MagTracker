@@ -10,5 +10,6 @@ contextBridge.exposeInMainWorld("electronAPI", {
   users: {
     create: (user: UserData) => ipcRenderer.invoke("users:add", user),
     auth: (user: LoginData) => ipcRenderer.invoke("users:auth", user),
+    delete: (userId: number) => ipcRenderer.invoke("users:delete", userId),
   },
 });

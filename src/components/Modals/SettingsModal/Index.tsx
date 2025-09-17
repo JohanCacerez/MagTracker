@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 
 // Components de cada sección
 import UserSettings from "./UserSettings";

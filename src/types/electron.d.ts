@@ -1,16 +1,3 @@
-//Magazines
-export interface Magazine {
-  id: number;
-  size: string;
-  status: string;
-}
-
-// API para magazines
-export interface MagazinesAPI {
-  get: () => Promise<Magazine[]>;
-  add: (magazine: Magazine) => Promise<void>;
-}
-
 //Usuarios
 export interface UserData {
   id: number;
@@ -36,6 +23,7 @@ export interface UsersAPI {
     message: string;
     user?: AuthUserData;
   }>;
+  delete: (userId: number) => Promise<{ success: boolean; message: string }>;
 }
 
 // Extiende window

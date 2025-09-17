@@ -5,12 +5,34 @@ import { toast, Toaster } from "sonner";
 
 export default function PanelControl() {
   const createUser = useUserStore((state) => state.createUser);
+  const deleteUser = useUserStore((state) => state.deleteUser);
 
   const [id, setId] = useState<number | "">(""); // empieza vacío
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [role, setRole] = useState("user");
   const [loading, setLoading] = useState(false);
+
+  const [idDelete, setIdDelete] = useState<number | "">("");
+
+  const handleSubmitDelete = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (idDelete === "") {
+      toast.error("Por favor, ingresa un ID válido");
+      return;
+    }
+    try {
+      await deleteUser(idDelete);
+      toast.success("Usuario eliminado con éxito");
+      setId("");
+    } catch (err: unknown) {
+      let msg = "Error al eliminar usuario";
+      if (err instanceof Error) {
+        msg = err.message;
+      }
+      toast.error(msg);
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -46,53 +68,78 @@ export default function PanelControl() {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-2 w-80 p-4">
-      <h2 className="text-lg font-bold">Registrar Usuario</h2>
+    <>
+      <form onSubmit={handleSubmit} className="flex flex-col gap-2 w-80 p-4">
+        <h2 className="text-lg font-bold">Registrar Usuario</h2>
 
-      <input
-        type="number"
-        placeholder="ID"
-        value={id}
-        onChange={(e) =>
-          setId(e.target.value === "" ? "" : Number(e.target.value))
-        }
-        className="p-2 border rounded"
-      />
+        <input
+          type="number"
+          placeholder="ID"
+          value={id}
+          onChange={(e) =>
+            setId(e.target.value === "" ? "" : Number(e.target.value))
+          }
+          className="p-2 border rounded"
+        />
 
-      <input
-        type="text"
-        placeholder="Username"
-        value={username}
-        onChange={(e) => setUsername(e.target.value)}
-        className="p-2 border rounded"
-      />
+        <input
+          type="text"
+          placeholder="Username"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          className="p-2 border rounded"
+        />
 
-      <input
-        type="password"
-        placeholder="Password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        className="p-2 border rounded"
-      />
+        <input
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          className="p-2 border rounded"
+        />
 
-      <select
-        value={role}
-        onChange={(e) => setRole(e.target.value)}
-        className="p-2 border rounded"
+        <select
+          value={role}
+          onChange={(e) => setRole(e.target.value)}
+          className="p-2 border rounded"
+        >
+          <option value="tec">Tecnico</option>
+          <option value="admin">Administrador</option>
+        </select>
+
+        <button
+          type="submit"
+          disabled={loading}
+          className="bg-blue-500 text-white p-2 rounded hover:bg-blue-600 disabled:opacity-50"
+        >
+          {loading ? "Creando..." : "Crear Usuario"}
+        </button>
+
+        <Toaster position="top-center" richColors />
+      </form>
+      <form
+        onSubmit={handleSubmitDelete}
+        className="flex flex-col gap-2 w-80 p-4"
       >
-        <option value="tec">Tecnico</option>
-        <option value="admin">Administrador</option>
-      </select>
+        <h2 className="text-lg font-bold">Eliminar Usuario</h2>
 
-      <button
-        type="submit"
-        disabled={loading}
-        className="bg-blue-500 text-white p-2 rounded hover:bg-blue-600 disabled:opacity-50"
-      >
-        {loading ? "Creando..." : "Crear Usuario"}
-      </button>
+        <input
+          type="text"
+          value={idDelete}
+          onChange={(e) =>
+            setIdDelete(e.target.value === "" ? "" : Number(e.target.value))
+          }
+          placeholder="ID del Usuario"
+          className="p-2 border rounded"
+        />
 
-      <Toaster position="top-center" richColors />
-    </form>
+        <button
+          type="submit"
+          className="bg-red-500 text-white p-2 rounded hover:bg-red-600 cursor-pointer"
+        >
+          Eliminar Usuario
+        </button>
+      </form>
+    </>
   );
 }
