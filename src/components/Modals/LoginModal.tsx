@@ -43,7 +43,7 @@ const LoginModal = () => {
       >
         <div className="fixed inset-0 bg-secondary-dark/30 flex items-center justify-center z-50">
           <div className="bg-white rounded-2xl p-6 w-[400px] shadow-xl">
-            <h2 className="text-xl font-bold mb-4 text-text-inverse">
+            <h2 className="text-xl font-title mb-4 text-text-inverse">
               Iniciar sesión
             </h2>
             <form onSubmit={handleSubmit} className="flex flex-col gap-3">
@@ -53,7 +53,7 @@ const LoginModal = () => {
                 placeholder="ID de usuario"
                 value={form.id}
                 onChange={handleChange}
-                className="border border-border rounded px-3 py-2"
+                className="border border-border rounded px-3 py-2 font-code"
                 required
               />
               <input
@@ -62,7 +62,7 @@ const LoginModal = () => {
                 placeholder="Contraseña"
                 value={form.password}
                 onChange={handleChange}
-                className="border border-border rounded px-3 py-2"
+                className="border border-border rounded px-3 py-2 font-code"
                 required
               />
               <button

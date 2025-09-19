@@ -22,9 +22,11 @@ const Sidebar: React.FC = () => {
       <div>
         {/* Usuario */}
         <div className="flex items-center justify-between mb-6">
-          <div className="flex items-center gap-2 font-semibold text-text">
+          <div className="flex items-center gap-2">
             <HiOutlineUserCircle size={35} />
-            <span>{currentUser?.username || "Usuario"}</span>
+            <span className="text-text font-body">
+              {currentUser?.username || "Usuario"}
+            </span>
           </div>
           <button
             onClick={openSettings}
@@ -42,7 +44,17 @@ const Sidebar: React.FC = () => {
                              text-text hover:bg-primary-light"
           >
             <HiOutlineChartBar />
-            <span>Dashboard</span>
+            <span className="text-text font-ui">Dashboard</span>
+          </NavLink>
+          <hr className="border-divider" />
+
+          <NavLink
+            to={"/magazines"}
+            className="flex items-center gap-3 px-4 py-2 rounded font-semibold cursor-pointer 
+                             text-text hover:bg-primary-light"
+          >
+            <BiBuilding />
+            <span className="text-text font-ui">Magazines</span>
           </NavLink>
           <hr className="border-divider" />
 
@@ -50,17 +62,8 @@ const Sidebar: React.FC = () => {
             className="flex items-center gap-3 px-4 py-2 rounded font-semibold cursor-pointer 
                              text-text hover:bg-primary-light"
           >
-            <BiBuilding />
-            <span>Magazines</span>
-          </button>
-          <hr className="border-divider" />
-
-          <button
-            className="flex items-center gap-3 px-4 py-2 rounded font-semibold cursor-pointer 
-                             text-text hover:bg-primary-light"
-          >
             <BiCar />
-            <span>Dollies</span>
+            <span className="text-text font-ui">Dollies</span>
           </button>
         </div>
       </div>
@@ -74,7 +77,7 @@ const Sidebar: React.FC = () => {
                            text-text hover:bg-primary-dark"
         >
           <FaSignOutAlt />
-          <span>Cerrar Sesión</span>
+          <span className="text-text font-ui">Cerrar Sesión</span>
         </button>
       </div>
       {/* Modal de Settings */}

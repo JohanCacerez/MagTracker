@@ -80,3 +80,57 @@ export async function DeleteUser(idUser: number) {
     return { success: false, message: "Error al eliminar el usuario" };
   }
 }
+
+export async function changePassword(
+  idUser: number,
+  oldPassword: string,
+  newPassword: string
+) {
+  try {
+    const userExist = db
+      .prepare("SELECT * FROM users WHERE id = ?")
+      .get(idUser);
+
+    if (!userExist) {
+      return { success: false, message: "El usuario no existe" };
+    }
+
+    // Validar la contraseña actual
+    const match = await bcrypt.compare(oldPassword, userExist.password);
+    if (!match) {
+      return { success: false, message: "Contraseña incorrecta" };
+    }
+
+    //minimo 8 caracteres
+    if (newPassword.length < 8) {
+      return {
+        success: false,
+        message: "La contraseña debe tener mínimo 8 caracteres",
+      };
+    }
+
+    // Validar que la nueva no sea igual a la actual
+    const isSame = await bcrypt.compare(newPassword, userExist.password);
+    if (isSame) {
+      return {
+        success: false,
+        message: "La contraseña nueva debe ser diferente a la actual",
+      };
+    }
+
+    // Hashear la nueva contraseña y actualizar
+    const newPasswordHash = await bcrypt.hash(newPassword, 10);
+    db.prepare("UPDATE users SET password = ? WHERE id = ?").run(
+      newPasswordHash,
+      idUser
+    );
+
+    return { success: true, message: "Contraseña actualizada correctamente" };
+  } catch (error) {
+    console.error("Error al cambiar la contraseña:", error);
+    return {
+      success: false,
+      message: "Error al cambiar la contraseña del usuario",
+    };
+  }
+}

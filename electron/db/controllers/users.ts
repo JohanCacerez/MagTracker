@@ -1,5 +1,10 @@
 import { ipcMain } from "electron";
-import { AuthUser, CreateUser, DeleteUser } from "../../services/users";
+import {
+  AuthUser,
+  CreateUser,
+  DeleteUser,
+  changePassword,
+} from "../../services/users";
 import { UserData, LoginData } from "../../../src/types/electron";
 
 export function registerUserHandlers() {
@@ -8,4 +13,9 @@ export function registerUserHandlers() {
     AuthUser(user.id, user.password)
   );
   ipcMain.handle("users:delete", (_e, userId: number) => DeleteUser(userId));
+  ipcMain.handle(
+    "users:changePassword",
+    (_e, userId: number, oldPassword: string, newPassword: string) =>
+      changePassword(userId, oldPassword, newPassword)
+  );
 }

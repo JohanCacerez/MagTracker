@@ -70,7 +70,7 @@ export default function PanelControl() {
   return (
     <>
       <form onSubmit={handleSubmit} className="flex flex-col gap-2 w-80 p-4">
-        <h2 className="text-lg font-bold">Registrar Usuario</h2>
+        <h2 className="text-lg text-text font-title">Registrar usuario</h2>
 
         <input
           type="number"
@@ -79,29 +79,29 @@ export default function PanelControl() {
           onChange={(e) =>
             setId(e.target.value === "" ? "" : Number(e.target.value))
           }
-          className="p-2 border rounded"
+          className="p-2 border rounded font-code"
         />
 
         <input
           type="text"
-          placeholder="Username"
+          placeholder="Nombre"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
-          className="p-2 border rounded"
+          className="p-2 border rounded font-code"
         />
 
         <input
           type="password"
-          placeholder="Password"
+          placeholder="Contraseña"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          className="p-2 border rounded"
+          className="p-2 border rounded font-code"
         />
 
         <select
           value={role}
           onChange={(e) => setRole(e.target.value)}
-          className="p-2 border rounded"
+          className="p-2 border rounded font-code"
         >
           <option value="tec">Tecnico</option>
           <option value="admin">Administrador</option>
@@ -110,7 +110,7 @@ export default function PanelControl() {
         <button
           type="submit"
           disabled={loading}
-          className="bg-blue-500 text-white p-2 rounded hover:bg-blue-600 disabled:opacity-50"
+          className=" btn bg-blue-500 text-white p-2 rounded hover:bg-blue-600 disabled:opacity-50"
         >
           {loading ? "Creando..." : "Crear Usuario"}
         </button>
@@ -121,7 +121,7 @@ export default function PanelControl() {
         onSubmit={handleSubmitDelete}
         className="flex flex-col gap-2 w-80 p-4"
       >
-        <h2 className="text-lg font-bold">Eliminar Usuario</h2>
+        <h2 className="text-lg font-title">Eliminar Usuario</h2>
 
         <input
           type="text"
@@ -130,12 +130,12 @@ export default function PanelControl() {
             setIdDelete(e.target.value === "" ? "" : Number(e.target.value))
           }
           placeholder="ID del Usuario"
-          className="p-2 border rounded"
+          className="p-2 border rounded font-code"
         />
 
         <button
           type="submit"
-          className="bg-red-500 text-white p-2 rounded hover:bg-red-600 cursor-pointer"
+          className="btn bg-red-500 text-white p-2 rounded hover:bg-red-600 cursor-pointer"
         >
           Eliminar Usuario
         </button>

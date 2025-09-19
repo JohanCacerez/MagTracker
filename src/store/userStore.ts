@@ -7,6 +7,11 @@ interface UserState {
   authUser: (user: LoginData) => Promise<void>;
   logout: () => void;
   deleteUser: (userId: number) => Promise<void>;
+  changePassword: (
+    userId: number,
+    oldPassword: string,
+    newPassword: string
+  ) => Promise<void>;
 }
 
 export const useUserStore = create<UserState>((set, get) => ({
@@ -31,6 +36,24 @@ export const useUserStore = create<UserState>((set, get) => ({
       throw new Error("No puedes eliminar el usuario activo");
     }
     const result = await window.electronAPI.users.delete(userId);
+    if (!result.success) {
+      throw new Error(result.message);
+    }
+  },
+  changePassword: async (
+    userId: number,
+    oldPassword: string,
+    newPassword: string
+  ) => {
+    const currentUserId = get().currentUser?.id;
+    if (userId !== currentUserId) {
+      throw new Error("Solo puedes cambiar tu propia contraseña");
+    }
+    const result = await window.electronAPI.users.changePassword(
+      userId,
+      oldPassword,
+      newPassword
+    );
     if (!result.success) {
       throw new Error(result.message);
     }

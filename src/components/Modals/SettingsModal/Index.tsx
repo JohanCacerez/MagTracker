@@ -45,13 +45,13 @@ export default function SettingsModal({
                 <li>
                   <button
                     onClick={() => setActiveTab("UserSettings")}
-                    className={`w-full p-2 rounded text-left ${
+                    className={`w-full p-2 rounded text-left cursor-pointer ${
                       activeTab === "UserSettings"
                         ? "bg-primary text-white"
                         : "hover:bg-primary-light"
                     }`}
                   >
-                    Usuario
+                    <span className="text-text font-ui">Usuario</span>
                   </button>
                 </li>
 
@@ -59,13 +59,13 @@ export default function SettingsModal({
                 <li>
                   <button
                     onClick={() => setActiveTab("Reports")}
-                    className={`w-full p-2 rounded text-left ${
+                    className={`w-full p-2 rounded text-left cursor-pointer ${
                       activeTab === "Reports"
                         ? "bg-primary text-white"
                         : "hover:bg-primary-light"
                     }`}
                   >
-                    Reportes
+                    <span className="text-text font-ui">Reportes</span>
                   </button>
                 </li>
 
@@ -74,13 +74,13 @@ export default function SettingsModal({
                   <button
                     onClick={() => setActiveTab("PanelControl")}
                     disabled={!isAdmin}
-                    className={`w-full p-2 rounded text-left
+                    className={`w-full p-2 rounded text-left cursor-pointer
       ${activeTab === "PanelControl" ? "hover:bg-primary-light text-white" : ""}
       ${isAdmin ? "hover:bg-primary-light" : ""}
       ${!isAdmin ? "text-gray-400 cursor-not-allowed" : ""}
     `}
                   >
-                    Panel de Control
+                    <span className="text-text font-ui">Panel de control</span>
                   </button>
                 </li>
 
@@ -89,13 +89,13 @@ export default function SettingsModal({
                   <button
                     onClick={() => setActiveTab("Database")}
                     disabled={!isAdmin}
-                    className={`w-full p-2 rounded text-left
+                    className={`w-full p-2 rounded text-left cursor-pointer
       ${activeTab === "Database" ? "hover:bg-primary-light text-white" : ""}
       ${isAdmin ? "hover:bg-primary-light" : ""}
       ${!isAdmin ? "text-gray-400 cursor-not-allowed" : ""}
     `}
                   >
-                    Exportar DB
+                    <span className="text-text font-ui">Exportar DB</span>
                   </button>
                 </li>
               </ul>
@@ -105,7 +105,7 @@ export default function SettingsModal({
                 <hr className="border-divider my-2" />
                 <button
                   onClick={closeSettings}
-                  className="w-full px-4 py-2 bg-primary text-text rounded hover:bg-primary-light"
+                  className="btn w-full bg-primary text-text  hover:bg-primary-light"
                 >
                   Cerrar
                 </button>
