@@ -27,22 +27,18 @@ export default function RegisterMagazineModal({
     }
 
     try {
-      await addMagazine({
-        id,
-        size,
-        status,
-      });
-      toast.success("Magazine creado con éxito");
-      setId("");
-      setSize("");
-      setStatus("");
-    } catch (err: unknown) {
-      // mostramos solo el mensaje real del error
-      let msg = "Error al crear magazine";
-      if (err instanceof Error) {
-        msg = err.message;
+      const result = await addMagazine({ id, size, status });
+
+      if (result.success) {
+        toast.success(result.message);
+        setId("");
+        setSize("");
+        setStatus("op");
+      } else {
+        toast.error(result.message);
       }
-      toast.error(msg);
+    } catch (err: unknown) {
+      toast.error("Error inesperado al crear magazine");
     }
   };
   return (

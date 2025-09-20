@@ -9,6 +9,13 @@ export function addMagazine(magazine: MagazineData) {
       message: "Todos los campos deben llenarse",
     };
   }
+  const magazineExists = db
+    .prepare("SELECT COUNT(*) as count FROM magazines WHERE id = ?")
+    .get(id);
+
+  if (magazineExists.count > 0) {
+    return { success: false, message: "El magazine ya existe" };
+  }
   try {
     db.prepare("INSERT INTO magazines (id, size, status) VALUES (?, ?, ?)").run(
       id,
