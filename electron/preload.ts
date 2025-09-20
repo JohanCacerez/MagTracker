@@ -1,9 +1,15 @@
 import { ipcRenderer, contextBridge } from "electron";
-import { UserData, LoginData, MagazineData } from "../src/types/electron";
+import {
+  UserData,
+  LoginData,
+  MagazineData,
+  MaintenanceMagazineData,
+} from "../src/types/electron";
 
 contextBridge.exposeInMainWorld("electronAPI", {
   magazines: {
-    get: () => ipcRenderer.invoke("magazines:get"),
+    maintenance: (magazine: MaintenanceMagazineData, idUser: number) =>
+      ipcRenderer.invoke("magazine:maintenance", magazine, idUser),
     add: (magazine: MagazineData) =>
       ipcRenderer.invoke("magazines:add", magazine),
   },

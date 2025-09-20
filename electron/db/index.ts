@@ -5,6 +5,8 @@ const require = createRequire(import.meta.url);
 // Ahora sí puedes usar CommonJS
 const Database = require("better-sqlite3");
 
+const bcrypt = require("bcrypt");
+
 // Path de la DB (puedes usar app.getPath('userData') si quieres)
 import { app } from "electron";
 import path from "path";
@@ -23,7 +25,7 @@ db.exec(`
   );
 
   CREATE TABLE IF NOT EXISTS magazineMaintenance (
-    id INTEGER PRIMARY KEY,
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
     magazine_id INTEGER,
     user_id INTEGER,
     maintenance_type TEXT,
@@ -82,5 +84,25 @@ db.exec(`
     role TEXT
   );
 `);
+
+// 🔑 Insertar admin si no existe ningún usuario
+const adminExists = db
+  .prepare("SELECT COUNT(*) as count FROM users WHERE role = 'admin'")
+  .get();
+
+if (adminExists.count === 0) {
+  const defaultUsername = "admin";
+  const defaultPassword = "admin123";
+
+  // Hashear la contraseña
+  const saltRounds = 10;
+  const hashedPassword = bcrypt.hashSync(defaultPassword, saltRounds);
+
+  db.prepare(
+    "INSERT INTO users (username, password, role) VALUES (?, ?, ?)"
+  ).run(defaultUsername, hashedPassword, "admin");
+
+  console.log("Usuario admin creado: admin / admin123 (contraseña hasheada)");
+}
 
 export default db;

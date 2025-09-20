@@ -23,6 +23,15 @@ export interface MagazineData {
   status: string;
 }
 
+export interface MaintenanceMagazineData {
+  id: string;
+  type: string;
+  state: string;
+  act: string;
+  pieceRepair: string;
+  comments: string;
+}
+
 //API
 export interface UsersAPI {
   create: (user: UserData) => Promise<{ success: boolean; message: string }>;
@@ -42,6 +51,10 @@ export interface UsersAPI {
 export interface MagazinesAPI {
   add: (
     magzine: MagazineData
+  ) => Promise<{ success: boolean; message: string }>;
+  maintenance: (
+    magazine: MaintenanceMagazineData,
+    userId: number
   ) => Promise<{ success: boolean; message: string }>;
 }
 
