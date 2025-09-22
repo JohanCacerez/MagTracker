@@ -2,7 +2,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { AiOutlineClose } from "react-icons/ai";
 import { useState } from "react";
 import { toast, Toaster } from "sonner";
-import { useMagazineStore } from "../../../store/magazineStore"; // ajusta la ruta si es necesario
+import { useMagazineStore } from "../../../store/magazineStore";
 import { useUserStore } from "../../../store/userStore";
 import { MaintenanceMagazineData } from "../../../types/electron";
 
@@ -14,15 +14,38 @@ export default function RegisterMaintenanceModal({
   const maintenanceRegister = useMagazineStore(
     (state) => state.maintenanceRegister
   );
+  const getSize = useMagazineStore((state) => state.getSize);
   const currentUserId = useUserStore((state) => state.currentUser?.id);
+
   // Estados de inputs
   const [id, setId] = useState("");
   const [size, setSize] = useState("");
-  const [type, setType] = useState("op"); // Predictivo / Correctivo
-  const [stateM, setStateM] = useState("op"); // Producción / Reparado / Scrap
+  const [type, setType] = useState("op");
+  const [stateM, setStateM] = useState("op");
   const [activities, setActivities] = useState("");
   const [pieces, setPieces] = useState("");
   const [comments, setComments] = useState("");
+
+  const handleIdChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setId(value);
+
+    if (value.trim() !== "") {
+      try {
+        const result = await getSize(Number(value));
+        if (result.success) {
+          setSize(result.size ?? ""); // si viene undefined, pones string vacío
+        } else {
+          setSize(result.message);
+        }
+      } catch (err) {
+        setSize("");
+        toast.error("Error al obtener tamaño");
+      }
+    } else {
+      setSize("");
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -35,6 +58,7 @@ export default function RegisterMaintenanceModal({
       pieceRepair: pieces,
       comments,
     };
+
     if (!currentUserId) {
       toast.error("No se ha identificado al usuario");
       return;
@@ -95,7 +119,7 @@ export default function RegisterMaintenanceModal({
                     type="text"
                     placeholder="ID"
                     value={id}
-                    onChange={(e) => setId(e.target.value)}
+                    onChange={handleIdChange}
                     className="p-2 border rounded font-code bg-transparent text-primary placeholder-primary"
                   />
                   <input
@@ -111,8 +135,8 @@ export default function RegisterMaintenanceModal({
                     onChange={(e) => setType(e.target.value)}
                     className="p-2 border rounded font-code text-primary"
                   >
-                    <option value="op">Predictivo</option>
-                    <option value="rep">Correctivo</option>
+                    <option value="pre">Predictivo</option>
+                    <option value="cor">Correctivo</option>
                   </select>
                   <select
                     value={stateM}

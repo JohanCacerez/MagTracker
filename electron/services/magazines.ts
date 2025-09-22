@@ -80,3 +80,22 @@ export function maintenanceRegister(
     return { success: false, message: msg };
   }
 }
+
+export function getSizeMagazine(id: number) {
+  if (!id) {
+    return { success: false, message: "-" };
+  }
+  try {
+    const magazine = db
+      .prepare("SELECT size FROM magazines WHERE id = ?")
+      .get(id) as { size: string } | undefined;
+    if (!magazine) {
+      return { success: false, message: "-" };
+    }
+    return { success: true, message: "ok", size: magazine.size };
+  } catch (err: unknown) {
+    let msg = "Error al obtener el tamaño";
+    if (err instanceof Error) msg += `: ${err.message}`;
+    return { success: false, message: msg };
+  }
+}

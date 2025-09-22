@@ -15,7 +15,7 @@ export default function RegisterMagazineModal({
   const addMagazine = useMagazineStore((state) => state.addMagazine);
 
   const [id, setId] = useState("");
-  const [size, setSize] = useState<number | "">("");
+  const [size, setSize] = useState("");
   const [status, setStatus] = useState("op");
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -89,9 +89,7 @@ export default function RegisterMagazineModal({
                 min={0}
                 placeholder="Tamaño"
                 value={size}
-                onChange={(e) =>
-                  setSize(e.target.value === "" ? "" : Number(e.target.value))
-                }
+                onChange={(e) => setSize(e.target.value)}
                 className="p-2 border rounded font-code bg-transparent text-primary placeholder-primary"
               />
 

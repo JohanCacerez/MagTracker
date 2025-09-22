@@ -9,6 +9,9 @@ interface State {
     magazine: MaintenanceMagazineData,
     userId: number
   ) => Promise<{ success: boolean; message: string }>;
+  getSize: (
+    id: number
+  ) => Promise<{ success: boolean; message: string; size?: string }>;
 }
 
 export const useMagazineStore = create<State>(() => ({
@@ -21,6 +24,10 @@ export const useMagazineStore = create<State>(() => ({
       magazine,
       userId
     );
+    return result;
+  },
+  getSize: async (id) => {
+    const result = await window.electronAPI.magazines.getSize(id);
     return result;
   },
 }));

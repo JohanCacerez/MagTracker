@@ -1,6 +1,10 @@
 // electron/controllers/magazines.ts
 import { ipcMain } from "electron";
-import { addMagazine, maintenanceRegister } from "../../services/magazines";
+import {
+  addMagazine,
+  getSizeMagazine,
+  maintenanceRegister,
+} from "../../services/magazines";
 import {
   MagazineData,
   MaintenanceMagazineData,
@@ -15,4 +19,5 @@ export function registerMagazineHandlers() {
     (_e, magazine: MaintenanceMagazineData, userId: number) =>
       maintenanceRegister(magazine, userId)
   );
+  ipcMain.handle("magazines:getSize", (_e, id: number) => getSizeMagazine(id));
 }

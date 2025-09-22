@@ -19,7 +19,7 @@ export interface AuthUserData {
 //Magazines
 export interface MagazineData {
   id: string;
-  size: number;
+  size: string;
   status: string;
 }
 
@@ -56,6 +56,9 @@ export interface MagazinesAPI {
     magazine: MaintenanceMagazineData,
     userId: number
   ) => Promise<{ success: boolean; message: string }>;
+  getSize: (
+    id: number
+  ) => Promise<{ success: boolean; message: string; size?: string }>;
 }
 
 // Extiende window
