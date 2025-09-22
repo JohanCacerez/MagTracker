@@ -24,7 +24,7 @@ export function addMagazine(magazine: MagazineData) {
     nextYear.setFullYear(nextYear.getFullYear() + 1);
 
     db.prepare(
-      "INSERT INTO magazines (id, size, status, last_maintenance, next_maintenance) VALUES (?, ?, ?, ?, ?)"
+      "INSERT INTO magazines (id, size, status, last_maintenance, next_maintenance, audit) VALUES (?, ?, ?, ?, ?, 0)"
     ).run(id, size, status, today, nextYear.toISOString().split("T")[0]);
 
     return { success: true, message: "Magazine agregado correctamente" };
@@ -68,10 +68,11 @@ export function maintenanceRegister(
     ).run(id, userId, type, state, act, pieceRepair, comments, todayStr);
 
     db.prepare(
-      "UPDATE magazines SET last_maintenance = ?, next_maintenance = ?, audit = 0, id_auditer = NULL WHERE id = ?"
+      "UPDATE magazines SET last_maintenance = ?, next_maintenance = ?, status = ?, audit = 0, id_auditer = NULL WHERE id = ?"
     ).run(
       today.toISOString().split("T")[0],
       nextMaintenance.toISOString().split("T")[0],
+      state,
       id
     );
 
@@ -97,6 +98,46 @@ export function getSizeMagazine(id: number) {
     return { success: true, message: "ok", size: magazine.size };
   } catch (err: unknown) {
     let msg = "Error al obtener el tamaño";
+    if (err instanceof Error) msg += `: ${err.message}`;
+    return { success: false, message: msg };
+  }
+}
+
+export function getInfAllMagazines() {
+  try {
+    const stats = db
+      .prepare(
+        `
+        SELECT
+          COUNT(*) AS total_magazines,
+          SUM(
+            CASE
+              WHEN DATE(next_maintenance) <= DATE('now', '+14 days')
+               AND DATE(next_maintenance) >= DATE('now')
+              THEN 1 ELSE 0
+            END
+          ) AS proximos_mtto,
+          SUM(
+            CASE
+              WHEN DATE(next_maintenance) < DATE('now')
+              THEN 1 ELSE 0
+            END
+          ) AS con_mtto,
+          SUM(CASE WHEN audit = 1 THEN 1 ELSE 0 END) AS auditados,
+          SUM(CASE WHEN audit = 0 THEN 1 ELSE 0 END) AS no_auditados,
+          SUM(CASE WHEN status = 'scrap' THEN 1 ELSE 0 END) AS scrap
+        FROM magazines
+      `
+      )
+      .get();
+
+    return {
+      success: true,
+      message: "Información obtenida correctamente",
+      data: stats,
+    };
+  } catch (err: unknown) {
+    let msg = "Error al obtener la información de magazines";
     if (err instanceof Error) msg += `: ${err.message}`;
     return { success: false, message: msg };
   }

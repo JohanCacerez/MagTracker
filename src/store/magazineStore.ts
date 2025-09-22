@@ -12,6 +12,18 @@ interface State {
   getSize: (
     id: number
   ) => Promise<{ success: boolean; message: string; size?: string }>;
+  getAllInf: () => Promise<{
+    success: boolean;
+    message: string;
+    data?: {
+      total_magazines: number;
+      proximos_mtto: number;
+      con_mtto: number;
+      auditados: number;
+      no_auditados: number;
+      scrap: number;
+    };
+  }>;
 }
 
 export const useMagazineStore = create<State>(() => ({
@@ -28,6 +40,10 @@ export const useMagazineStore = create<State>(() => ({
   },
   getSize: async (id) => {
     const result = await window.electronAPI.magazines.getSize(id);
+    return result;
+  },
+  getAllInf: async () => {
+    const result = await window.electronAPI.magazines.getAllInf();
     return result;
   },
 }));

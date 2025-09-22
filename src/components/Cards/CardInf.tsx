@@ -4,7 +4,7 @@ export default function CardInf({
   color,
 }: {
   text: string;
-  count: number;
+  count?: number;
   color: string;
 }) {
   return (

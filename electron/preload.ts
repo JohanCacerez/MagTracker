@@ -13,6 +13,7 @@ contextBridge.exposeInMainWorld("electronAPI", {
     add: (magazine: MagazineData) =>
       ipcRenderer.invoke("magazines:add", magazine),
     getSize: (id: number) => ipcRenderer.invoke("magazines:getSize", id),
+    getAllInf: () => ipcRenderer.invoke("magazines:getAllInf"),
   },
   users: {
     create: (user: UserData) => ipcRenderer.invoke("users:add", user),

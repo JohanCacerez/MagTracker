@@ -2,6 +2,7 @@
 import { ipcMain } from "electron";
 import {
   addMagazine,
+  getInfAllMagazines,
   getSizeMagazine,
   maintenanceRegister,
 } from "../../services/magazines";
@@ -20,4 +21,5 @@ export function registerMagazineHandlers() {
       maintenanceRegister(magazine, userId)
   );
   ipcMain.handle("magazines:getSize", (_e, id: number) => getSizeMagazine(id));
+  ipcMain.handle("magazines:getAllInf", () => getInfAllMagazines());
 }
