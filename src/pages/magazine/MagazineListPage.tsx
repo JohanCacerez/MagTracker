@@ -24,7 +24,7 @@ export default function MagazineListPage() {
             color={"red-500"}
           />
           <CardInf
-            text={"Magazines sin mantenimiento"}
+            text={"Magazines sin auditar"}
             count={100}
             color={"red-500"}
           />

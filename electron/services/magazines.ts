@@ -59,14 +59,16 @@ export function maintenanceRegister(
     const today = new Date();
     const todayStr = today.toISOString().split("T")[0]; // YYYY-MM-DD
     const nextMaintenance = new Date(today);
-    nextMaintenance.setFullYear(today.getFullYear() + 1);
+    //Cuanto tiempo para el siguiente mtto
+    //actualmente es cada 4 meses
+    nextMaintenance.setMonth(today.getMonth() + 4);
     // Insertar mantenimiento
     db.prepare(
       "INSERT INTO magazineMaintenance (magazine_id, user_id, maintenance_type, finally_state, activities_completed, replacement_parts, additional_comments, maintenance_date) VALUES (?, ?, ?, ?, ?, ?, ?, ?)"
     ).run(id, userId, type, state, act, pieceRepair, comments, todayStr);
 
     db.prepare(
-      "UPDATE magazines SET last_maintenance = ?, next_maintenance = ? WHERE id = ?"
+      "UPDATE magazines SET last_maintenance = ?, next_maintenance = ?, audit = 0, id_auditer = NULL WHERE id = ?"
     ).run(
       today.toISOString().split("T")[0],
       nextMaintenance.toISOString().split("T")[0],

@@ -20,8 +20,11 @@ db.exec(`
     id INTEGER PRIMARY KEY,
     size TEXT,
     status TEXT DEFAULT 'available',
+    audit INTEGER,
+    id_auditer TEXT,
     last_maintenance DATE,
-    next_maintenance DATE
+    next_maintenance DATE,
+    FOREIGN KEY (id_auditer) REFERENCES users(id)
   );
 
   CREATE TABLE IF NOT EXISTS magazineMaintenance (
