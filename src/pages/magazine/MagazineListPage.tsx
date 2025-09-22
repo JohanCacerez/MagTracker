@@ -48,27 +48,27 @@ export default function MagazineListPage() {
           <CardInf
             text={"Magazines totales"}
             count={stats.total_magazines}
-            color={"red-500"}
+            color={"bg-green-700"}
           />
           <CardInf
             text={"Magazines proximos a mantenimiento"}
             count={stats.proximos_mtto}
-            color={"red-500"}
+            color={"bg-yellow-700"}
           />
           <CardInf
             text={"Magazines con mantenimiento"}
             count={stats.auditados}
-            color={"red-500"}
+            color={"bg-blue-700"}
           />
           <CardInf
             text={"Magazines sin auditar"}
             count={stats.no_auditados}
-            color={"red-500"}
+            color={"bg-orange-700"}
           />
           <CardInf
             text={"Magazines SCRAP"}
             count={stats.scrap}
-            color={"red-500"}
+            color={"bg-red-700"}
           />
         </div>
       </section>

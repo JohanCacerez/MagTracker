@@ -35,6 +35,7 @@ export default function RegisterMagazineModal({
         setSize("");
         setStatus("op");
       } else {
+        console.log(result.message);
         toast.error(result.message);
       }
     } catch (err: unknown) {

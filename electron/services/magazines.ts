@@ -10,22 +10,33 @@ export function addMagazine(magazine: MagazineData) {
     return { success: false, message: "Todos los campos deben llenarse" };
   }
 
+  // asegurar tipo correcto
+  const parsedId = Number(id);
+  const parsedSize = String(size); // si en DB es TEXT, lo dejamos así; si es INT => Number(size)
+
+  if (isNaN(parsedId)) {
+    return { success: false, message: "El ID debe ser un número válido" };
+  }
+
   const magazineExists = db
     .prepare("SELECT COUNT(*) as count FROM magazines WHERE id = ?")
-    .get(id);
+    .get(parsedId);
 
   if (magazineExists.count > 0) {
     return { success: false, message: "El magazine ya existe" };
   }
 
   try {
-    const today = new Date().toISOString().split("T")[0];
-    const nextYear = new Date();
-    nextYear.setFullYear(nextYear.getFullYear() + 1);
+    const today = new Date();
+    const nextMaintenance = new Date(today);
+    nextMaintenance.setMonth(today.getMonth() + 4);
+
+    const todayStr = today.toISOString().split("T")[0];
+    const nextStr = nextMaintenance.toISOString().split("T")[0];
 
     db.prepare(
       "INSERT INTO magazines (id, size, status, last_maintenance, next_maintenance, audit) VALUES (?, ?, ?, ?, ?, 0)"
-    ).run(id, size, status, today, nextYear.toISOString().split("T")[0]);
+    ).run(parsedId, parsedSize, status, todayStr, nextStr);
 
     return { success: true, message: "Magazine agregado correctamente" };
   } catch (err: unknown) {
