@@ -73,10 +73,6 @@ export default function RegisterMagazineModal({
               onSubmit={handleSubmit}
               className="flex flex-col gap-2 w-80 p-4"
             >
-              <h2 className="text-lg text-text font-title">
-                Registrar Magazine
-              </h2>
-
               <input
                 type="text"
                 value={id}
