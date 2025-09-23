@@ -3,9 +3,11 @@ import CardInf from "../../components/Cards/CardInf";
 import { useEffect, useState } from "react";
 
 import { useMagazineStore } from "../../store/magazineStore";
+import MagazinesTable from "../../components/Tables/MagazinesTable";
 
 export default function MagazineListPage() {
   const getAllInf = useMagazineStore((state) => state.getAllInf);
+  const reloadFlag = useMagazineStore((state) => state.reloadFlag);
 
   const [stats, setStats] = useState<{
     total_magazines?: number;
@@ -34,7 +36,7 @@ export default function MagazineListPage() {
     };
 
     fetchData();
-  }, [getAllInf]);
+  }, [getAllInf, reloadFlag]);
   return (
     <>
       <div className="flex justify-center">
@@ -70,6 +72,9 @@ export default function MagazineListPage() {
             count={stats.scrap}
             color={"bg-red-700"}
           />
+        </div>
+        <div>
+          <MagazinesTable />
         </div>
       </section>
     </>

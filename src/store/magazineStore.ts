@@ -1,7 +1,13 @@
 import { create } from "zustand";
-import { MagazineData, MaintenanceMagazineData } from "../types/electron";
+import {
+  MagazineData,
+  MaintenanceMagazineData,
+  MagazineAllData,
+} from "../types/electron";
 
 interface State {
+  reloadFlag: number; // cada vez que cambie, dispararemos un re-render
+  triggerReload: () => void;
   addMagazine: (
     magazine: MagazineData
   ) => Promise<{ success: boolean; message: string }>;
@@ -24,11 +30,19 @@ interface State {
       scrap: number;
     };
   }>;
+  getAllMagazines: () => Promise<{
+    success: boolean;
+    message: string;
+    result: MagazineAllData[];
+  }>;
 }
 
-export const useMagazineStore = create<State>(() => ({
+export const useMagazineStore = create<State>((set) => ({
+  reloadFlag: 0,
+  triggerReload: () => set((state) => ({ reloadFlag: state.reloadFlag + 1 })),
   addMagazine: async (magazine) => {
     const result = await window.electronAPI.magazines.add(magazine);
+    if (result.success) set((state) => ({ reloadFlag: state.reloadFlag + 1 }));
     return result;
   },
   maintenanceRegister: async (magazine, userId) => {
@@ -36,6 +50,7 @@ export const useMagazineStore = create<State>(() => ({
       magazine,
       userId
     );
+    if (result.success) set((state) => ({ reloadFlag: state.reloadFlag + 1 }));
     return result;
   },
   getSize: async (id) => {
@@ -44,6 +59,10 @@ export const useMagazineStore = create<State>(() => ({
   },
   getAllInf: async () => {
     const result = await window.electronAPI.magazines.getAllInf();
+    return result;
+  },
+  getAllMagazines: async () => {
+    const result = await window.electronAPI.magazines.getAllMagazines();
     return result;
   },
 }));

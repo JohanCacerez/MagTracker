@@ -153,3 +153,14 @@ export function getInfAllMagazines() {
     return { success: false, message: msg };
   }
 }
+
+export function getAllMagazines() {
+  try {
+    const result = db.prepare("SELECT * FROM magazines").all(); // <-- aquí
+    return { success: true, message: "ok", result };
+  } catch (err: unknown) {
+    let msg = "Error al obtener magazines";
+    if (err instanceof Error) msg += `: ${err.message}`;
+    return { success: false, message: msg, result: [] };
+  }
+}

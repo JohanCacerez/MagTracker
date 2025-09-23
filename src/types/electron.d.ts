@@ -23,6 +23,16 @@ export interface MagazineData {
   status: string;
 }
 
+export interface MagazineAllData {
+  id: number; // INTEGER PRIMARY KEY
+  size: string; // TEXT
+  status: string; // TEXT
+  audit: number; // INTEGER (0 o 1, según lo uses)
+  id_auditer: number | null; // FOREIGN KEY → users.id (puede ser null)
+  last_maintenance: string | null; // DATE en SQLite suele llegar como string (ISO)
+  next_maintenance: string | null; // igual que arriba
+}
+
 export interface MaintenanceMagazineData {
   id: string;
   type: string;
@@ -70,6 +80,11 @@ export interface MagazinesAPI {
       no_auditados: number;
       scrap: number;
     };
+  }>;
+  getAllMagazines: () => Promise<{
+    success: boolean;
+    message: string;
+    result: MagazineAllData[];
   }>;
 }
 
