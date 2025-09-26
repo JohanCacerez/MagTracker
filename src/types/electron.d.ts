@@ -23,6 +23,17 @@ export interface MagazineData {
   status: string;
 }
 
+interface MantenimientoMagazine {
+  id: string;
+  fecha: string;
+  tipo: string;
+  estado: string;
+  responsable: string;
+  actividades: { comentario: string }[];
+  piezas: { comentario: string }[];
+  comentarios: { comentario: string }[];
+}
+
 export interface MagazineAllData {
   id: number; // INTEGER PRIMARY KEY
   size: string; // TEXT
@@ -40,6 +51,18 @@ export interface MaintenanceMagazineData {
   act: string;
   pieceRepair: string;
   comments: string;
+}
+
+export interface MaintenanceDBRow {
+  id: number;
+  magazine_id: number;
+  user_id: number;
+  maintenance_type: string;
+  finally_state: string;
+  activities_completed: string; // JSON string
+  replacement_parts: string; // JSON string
+  additional_comments: string; // JSON string
+  maintenance_date: string; // DATE en formato texto
 }
 
 //API
@@ -85,6 +108,11 @@ export interface MagazinesAPI {
     success: boolean;
     message: string;
     result: MagazineAllData[];
+  }>;
+  getAllMaintenanceMagazines: () => Promise<{
+    success: boolean;
+    message: string;
+    result: MaintenanceDBRow[];
   }>;
 }
 

@@ -46,7 +46,10 @@ export async function AuthUser(idUser: number, password: string) {
 
     // Verificar si el usuario existe y si la contraseña es correcta
     if (!userExist || !(await bcrypt.compare(password, userExist.password))) {
-      return { success: false, message: "Usuario o contraseña incorrectos" };
+      return {
+        success: false,
+        message: "Usuario o contraseña incorrectos",
+      };
     }
 
     // Devolver datos del usuario si la autenticación es exitosa

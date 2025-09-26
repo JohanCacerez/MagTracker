@@ -4,12 +4,28 @@ import { useMagazineStore } from "../../store/magazineStore";
 import { useState, useEffect } from "react";
 import { MagazineAllData } from "../../types/electron";
 import { Tag } from "primereact/tag";
-import { Button } from "primereact/button";
 import { Checkbox } from "primereact/checkbox";
 import { InputText } from "primereact/inputtext";
+import { FaInfoCircle } from "react-icons/fa";
+
+import DetailsMagazineModal from "../Modals/Magazine Modal/DetailsMagazineModal";
 
 export default function MagazineTable() {
   const getAllMagazines = useMagazineStore((state) => state.getAllMagazines);
+
+  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+  const [selectedMagazine, setSelectedMagazine] =
+    useState<MagazineAllData | null>(null);
+
+  const openSettings = (magazine: MagazineAllData) => {
+    setSelectedMagazine(magazine);
+    setIsSettingsOpen(true);
+  };
+
+  const closeSettings = () => {
+    setIsSettingsOpen(false);
+    setSelectedMagazine(null);
+  };
 
   const reloadFlag = useMagazineStore((state) => state.reloadFlag);
   const [magazines, setMagazines] = useState<MagazineAllData[]>([]);
@@ -48,28 +64,20 @@ export default function MagazineTable() {
 
   const actionTemplate = (rowData: MagazineAllData) => (
     <div className="flex gap-2">
-      <Button
-        icon="pi pi-info-circle"
-        rounded
-        outlined
-        severity="info"
-        onClick={() => console.log("Editar", rowData.id)}
-      />
+      <button
+        onClick={() => openSettings(rowData)}
+        className="m-4 cursor-pointer text-text-inverse hover:text-text-muted"
+      >
+        <FaInfoCircle />
+      </button>
     </div>
   );
 
   // === Filtrado de magazines ===
   const filteredMagazines = magazines.filter((mag) => {
-    // Filtro por ID
     if (idFilter && !mag.id.toString().includes(idFilter)) return false;
-
-    // Filtro auditado
     if (filter.showNotAudited && mag.audit) return false;
-
-    // Filtro estado scrap
     if (filter.showScrap && mag.status !== "scrap") return false;
-
-    // Filtro próximo mantenimiento (14 días)
     if (filter.showNextMaintenanceSoon && mag.next_maintenance) {
       const nextDate = new Date(mag.next_maintenance);
       const now = new Date();
@@ -77,7 +85,6 @@ export default function MagazineTable() {
         (nextDate.getTime() - now.getTime()) / (1000 * 60 * 60 * 24);
       if (diffDays > 14) return false;
     }
-
     return true;
   });
 
@@ -119,60 +126,37 @@ export default function MagazineTable() {
       <DataTable
         value={filteredMagazines}
         paginator
-        rows={5}
+        rows={10}
         stripedRows
         emptyMessage="No hay magazines registrados"
         className="rounded-lg overflow-hidden shadow-md"
         tableClassName="min-w-full"
       >
-        <Column
-          field="id"
-          header="ID"
-          headerClassName="px-4"
-          bodyClassName="px-4"
-        />
-        <Column
-          field="size"
-          header="Size"
-          headerClassName="px-4"
-          bodyClassName="px-4"
-        />
-        <Column
-          field="status"
-          header="Estado"
-          headerClassName="px-4"
-          bodyClassName="px-4"
-        />
+        <Column field="id" header="ID" />
+        <Column field="size" header="Size" />
+        <Column field="status" header="Estado" />
         <Column
           field="last_maintenance"
           header="Ult. mtto"
           body={lastMaintenanceTemplate}
           sortable
-          headerClassName="px-4"
-          bodyClassName="px-4"
         />
         <Column
           field="next_maintenance"
           header="Sig. mtto"
           body={nextMaintenanceTemplate}
           sortable
-          headerClassName="px-4"
-          bodyClassName="px-4"
         />
-        <Column
-          field="audit"
-          header="Auditado"
-          body={auditTemplate}
-          headerClassName="px-4"
-          bodyClassName="px-4"
-        />
-        <Column
-          header="Detalles"
-          body={actionTemplate}
-          headerClassName="px-4"
-          bodyClassName="px-4"
-        />
+        <Column field="audit" header="Auditado" body={auditTemplate} />
+        <Column header="Detalles" body={actionTemplate} />
       </DataTable>
+
+      {isSettingsOpen && selectedMagazine && (
+        <DetailsMagazineModal
+          closeSettings={closeSettings}
+          magazineId={selectedMagazine.id}
+        />
+      )}
     </div>
   );
 }

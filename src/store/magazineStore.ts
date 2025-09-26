@@ -3,6 +3,7 @@ import {
   MagazineData,
   MaintenanceMagazineData,
   MagazineAllData,
+  MaintenanceDBRow,
 } from "../types/electron";
 
 interface State {
@@ -35,6 +36,11 @@ interface State {
     message: string;
     result: MagazineAllData[];
   }>;
+  getAllMaintenanceMagazines: () => Promise<{
+    success: boolean;
+    message: string;
+    result: MaintenanceDBRow[];
+  }>;
 }
 
 export const useMagazineStore = create<State>((set) => ({
@@ -63,6 +69,11 @@ export const useMagazineStore = create<State>((set) => ({
   },
   getAllMagazines: async () => {
     const result = await window.electronAPI.magazines.getAllMagazines();
+    return result;
+  },
+  getAllMaintenanceMagazines: async () => {
+    const result =
+      await window.electronAPI.magazines.getAllMaintenanceMagazines();
     return result;
   },
 }));

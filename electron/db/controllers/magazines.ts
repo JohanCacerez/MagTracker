@@ -6,6 +6,7 @@ import {
   getInfAllMagazines,
   getSizeMagazine,
   maintenanceRegister,
+  getAllMaintenanceMagazines,
 } from "../../services/magazines";
 import {
   MagazineData,
@@ -24,4 +25,7 @@ export function registerMagazineHandlers() {
   ipcMain.handle("magazines:getSize", (_e, id: number) => getSizeMagazine(id));
   ipcMain.handle("magazines:getAllInf", () => getInfAllMagazines());
   ipcMain.handle("magazines:getAllMagazines", () => getAllMagazines());
+  ipcMain.handle("magazines:getAllMaintenanceMagazines", () =>
+    getAllMaintenanceMagazines()
+  );
 }

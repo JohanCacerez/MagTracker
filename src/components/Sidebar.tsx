@@ -58,13 +58,14 @@ const Sidebar: React.FC = () => {
           </NavLink>
           <hr className="border-divider" />
 
-          <button
+          <NavLink
+            to={"/dollies"}
             className="flex items-center gap-3 px-4 py-2 rounded font-semibold cursor-pointer 
                              text-text hover:bg-primary-light"
           >
             <BiCar />
             <span className="text-text font-ui">Dollies</span>
-          </button>
+          </NavLink>
         </div>
       </div>
 

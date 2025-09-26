@@ -73,10 +73,35 @@ export function maintenanceRegister(
     //Cuanto tiempo para el siguiente mtto
     //actualmente es cada 4 meses
     nextMaintenance.setMonth(today.getMonth() + 4);
+
+    // Siempre guardamos como array de objetos con comentario
+    const actStr = JSON.stringify(
+      Array.isArray(act) ? act : [{ comentario: String(act) }]
+    );
+
+    const pieceRepairStr = JSON.stringify(
+      Array.isArray(pieceRepair)
+        ? pieceRepair
+        : [{ comentario: String(pieceRepair) }]
+    );
+
+    const commentsStr = JSON.stringify(
+      Array.isArray(comments) ? comments : [{ comentario: String(comments) }]
+    );
+
     // Insertar mantenimiento
     db.prepare(
       "INSERT INTO magazineMaintenance (magazine_id, user_id, maintenance_type, finally_state, activities_completed, replacement_parts, additional_comments, maintenance_date) VALUES (?, ?, ?, ?, ?, ?, ?, ?)"
-    ).run(id, userId, type, state, act, pieceRepair, comments, todayStr);
+    ).run(
+      id,
+      userId,
+      type,
+      state,
+      actStr,
+      pieceRepairStr,
+      commentsStr,
+      todayStr
+    );
 
     db.prepare(
       "UPDATE magazines SET last_maintenance = ?, next_maintenance = ?, status = ?, audit = 0, id_auditer = NULL WHERE id = ?"
@@ -157,6 +182,17 @@ export function getInfAllMagazines() {
 export function getAllMagazines() {
   try {
     const result = db.prepare("SELECT * FROM magazines").all(); // <-- aquí
+    return { success: true, message: "ok", result };
+  } catch (err: unknown) {
+    let msg = "Error al obtener magazines";
+    if (err instanceof Error) msg += `: ${err.message}`;
+    return { success: false, message: msg, result: [] };
+  }
+}
+
+export function getAllMaintenanceMagazines() {
+  try {
+    const result = db.prepare("SELECT * FROM magazineMaintenance").all(); // <-- aquí
     return { success: true, message: "ok", result };
   } catch (err: unknown) {
     let msg = "Error al obtener magazines";
